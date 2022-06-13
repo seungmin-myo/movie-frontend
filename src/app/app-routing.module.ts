@@ -14,8 +14,14 @@ import {DevExtremeModule} from 'devextreme-angular';
 import {EmployeeComponent} from "./pages/employee/employee.component";
 import {CommonModule} from "@angular/common";
 import {EmployeeEditComponent} from "./pages/employee/edit/employee-edit.component";
+import {MovieComponent} from "./pages/movie/movie.component";
 
 const routes: Routes = [
+  {
+    path: 'movie',
+    component: MovieComponent,
+    canActivate: [ AuthGuardService ]
+  },
   {
     path: 'employee',
     component: EmployeeComponent,
@@ -71,7 +77,8 @@ const routes: Routes = [
     ProfileComponent,
     TasksComponent,
     EmployeeComponent,
-    EmployeeEditComponent
+    EmployeeEditComponent,
+    MovieComponent
   ]
 })
 export class AppRoutingModule { }
