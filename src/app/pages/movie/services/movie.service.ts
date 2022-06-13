@@ -20,7 +20,7 @@ export class Agent {
   Picture: string;
 }
 
-export class House {
+export class Movie {
   id: number;
 
   title: string;
@@ -42,7 +42,7 @@ export class House {
   agent: Agent;
 }
 
-const houses: House[] = [{
+const movies: Movie[] = [{
   id: 1,
   title: '마녀(魔女) Part2',
   advanceTicketSale: '27.6',
@@ -309,7 +309,7 @@ export class MovieService {
     return this.http.delete<any>(`${URL}/${id}`);
   }
 
-  getHouses() {
-    return houses;
+  getMovies() {
+    return movies;
   }
 }

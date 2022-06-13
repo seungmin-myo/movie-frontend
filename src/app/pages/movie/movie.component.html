@@ -1,15 +1,15 @@
 <h2 class="content-block">상영 영화</h2>
 <div class="images">
-  <div *ngFor="let house of houses">
-    <div (click)="showHouse(house)" class="item-content">
-      <img src="{{ house.image }}"/>
+  <div *ngFor="let movie of movies">
+    <div (click)="showMovie(movie)" class="item-content">
+      <img src="{{ movie.image }}"/>
       <div class="item-options">
-        <div class="rank">{{ house.id }}</div>
+        <div class="rank">{{ movie.id }}</div>
         <div>
-          <div class="info">예매율 {{ house.advanceTicketSale }}% | 개봉일 {{ house.openingDate }}</div>
-          <div class="title large-text">{{ house.title }}</div>
+          <div class="info">예매율 {{ movie.advanceTicketSale }}% | 개봉일 {{ movie.openingDate }}</div>
+          <div class="title large-text">{{ movie.title }}</div>
           <div class="rated">
-            <img src="/assets/movie/rated/{{ house.rated }}.svg"/>
+            <img src="/assets/movie/rated/{{ movie.rated }}.svg"/>
           </div>
         </div>
       </div>
@@ -27,9 +27,9 @@
   >
     <div *dxTemplate="let data of 'content'">
       <div class="popup-property-details">
-        <div class="large-text">{{ currentHouse.title }}</div>
+        <div class="large-text">{{ currentMovie.title }}</div>
         <div class="opacity"
-        >예매율 {{ currentHouse.advanceTicketSale }}% | {{ currentHouse.openingDate }} | {{ currentHouse.genre}} | {{currentHouse.runningTime}}분</div
+        >예매율 {{ currentMovie.advanceTicketSale }}% | {{ currentMovie.openingDate }} | {{ currentMovie.genre}} | {{currentMovie.runningTime}}분</div
         >
         <dx-button
           class="booking"
@@ -40,8 +40,8 @@
           (onClick)="changeFavoriteState($event)"
         >
         </dx-button>
-        <img src="{{ currentHouse.image }}"/>
-        <div class="description" style="white-space: pre-line">{{ currentHouse.description }}</div>
+        <img src="{{ currentMovie.image }}"/>
+        <div class="description" style="white-space: pre-line">{{ currentMovie.description }}</div>
       </div>
     </div>
   </dx-popup>

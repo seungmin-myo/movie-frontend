@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import 'devextreme/data/odata/store';
 import notify from "devextreme/ui/notify";
-import {House, MovieService} from "./services/movie.service";
+import {Movie, MovieService} from "./services/movie.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'sample-employee',
@@ -14,30 +15,27 @@ export class MovieComponent implements OnInit {
 
   filter = '';
 
-  houses: House[];
+  movies: Movie[];
 
-  currentHouse: House;
+  currentMovie: Movie;
 
   popupVisible = false;
 
-  ADD_TO_FAVORITES = 'Add to Favorites';
-
-  REMOVE_FROM_FAVORITES = 'Remove from Favorites';
-
-  constructor(private movieService: MovieService) {
-    this.houses = movieService.getHouses();
-    this.currentHouse = this.houses[0];
+  constructor(private movieService: MovieService,
+              private router: Router) {
+    this.movies = movieService.getMovies();
+    this.currentMovie = this.movies[0];
   }
 
   ngOnInit(): void {
   }
 
-  showHouse(house: House) {
-    this.currentHouse = house;
+  showMovie(movie: Movie) {
+    this.currentMovie = movie;
     this.popupVisible = true;
   }
 
   changeFavoriteState($event: any) {
-
+    this.router.navigate(['/booking']);
   }
 }
