@@ -15,11 +15,18 @@ import {EmployeeComponent} from "./pages/employee/employee.component";
 import {CommonModule} from "@angular/common";
 import {EmployeeEditComponent} from "./pages/employee/edit/employee-edit.component";
 import {MovieComponent} from "./pages/movie/movie.component";
+import {ReservationComponent} from "./pages/reservation/reservation.component";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 const routes: Routes = [
   {
     path: 'movie',
     component: MovieComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
+    path: 'reservation',
+    component: ReservationComponent,
     canActivate: [ AuthGuardService ]
   },
   {

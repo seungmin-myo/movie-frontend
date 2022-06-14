@@ -5,7 +5,7 @@ import {Movie, MovieService} from "./services/movie.service";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'sample-employee',
+  selector: 'sample-movie',
   providers: [MovieService],
   templateUrl: 'movie.component.html',
   styleUrls: ['./movie.component.scss'],
@@ -28,8 +28,6 @@ export class MovieComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
     this.movieService.list().subscribe(result => {
       for (let movie of result) {
         let str = movie.runningTime.toLowerCase().substring(2, movie.runningTime.length);
@@ -45,7 +43,7 @@ export class MovieComponent implements OnInit {
     this.popupVisible = true;
   }
 
-  changeFavoriteState($event: any) {
-    this.router.navigate(['/booking']);
+  moveReservationPage($event: any) {
+    this.router.navigate(['/reservation']);
   }
 }
