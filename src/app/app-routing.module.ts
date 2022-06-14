@@ -76,7 +76,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true}), DevExtremeModule, CommonModule],
+  imports: [RouterModule.forRoot(routes, {useHash: true}), DevExtremeModule, CommonModule,
+    FlexLayoutModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
   declarations: [
@@ -85,7 +86,8 @@ const routes: Routes = [
     TasksComponent,
     EmployeeComponent,
     EmployeeEditComponent,
-    MovieComponent
+    MovieComponent,
+    ReservationComponent
   ]
 })
 export class AppRoutingModule { }

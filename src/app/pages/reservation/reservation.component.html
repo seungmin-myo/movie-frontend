@@ -1,10 +1,9 @@
 <h2 class="content-block">영화예매</h2>
-<div  class="content-block" fxLayout="row" fxLayoutGap="24px" style="margin: 20px">
+<div  class="content-block" fxLayout="row" style="margin: 20px; height: 600px;">
   <dx-data-grid fxFlex="40"
     id="movieGrid"
     keyExpr="id"
     [dataSource]="movies"
-    [columns]="movieColumns"
     [showBorders]="true"
     [focusedRowEnabled]="true"
     [(focusedRowKey)]="focusedRowKey"
@@ -15,13 +14,15 @@
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-sorting mode="none"></dxo-sorting>
+    <dxi-column dataField="rated" caption="연령" [width]="80" ></dxi-column>
+    <dxi-column dataField="title" caption="제목" [width]="100"></dxi-column>
   </dx-data-grid>
 
   <dx-data-grid class="selected-data form" fxFlex="60" style="background-color: #fff; border: 1px solid #ddd"
                 id="screeningGrid"
                 keyExpr="id"
-                [dataSource]="movies"
-                [columns]="movieColumns"
+                [dataSource]="screenings"
+                [columns]="screeningColumns"
                 [showBorders]="true"
                 [focusedRowEnabled]="true"
                 [(focusedRowKey)]="focusedRowKey"

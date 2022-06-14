@@ -23,6 +23,8 @@ export class ReservationComponent implements OnInit {
 
   movieColumns = ['rated', 'title'];
 
+  screeningColumns = ['sequence', 'whenScreened']
+
   focusedRowKey = 1;
 
   autoNavigateToFocusedRow = true;
@@ -42,10 +44,16 @@ export class ReservationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('@@@');
     this.movieService.list().subscribe(result => {
       this.movies = result;
     })
+
+    this.screeningService.list().subscribe(result => {
+      this.screenings = result;
+    },
+      (error) => {
+        console.log(error);
+      })
   }
 
   onFocusedRowChanging(e) {

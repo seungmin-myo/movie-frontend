@@ -8,9 +8,9 @@ export class Screening {
 
   movie: Movie;
 
-  sequence: number;
+  sequence: string;
 
-  whenScreened: number;
+  whenScreened: string;
 }
 
 const URL = '/dna/practice/screenings';
