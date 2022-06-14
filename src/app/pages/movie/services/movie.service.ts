@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams, HttpParamsOptions} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Pageable} from "../../../shared/services/pageable.service";
+import {Duration} from "moment";
 
 export class Movie {
   id: number;
@@ -10,15 +10,15 @@ export class Movie {
 
   rated: string;
 
-  advanceTicketSale: String;
+  advanceTicketSale: string;
 
-  openingDate: String;
+  openingDate: string;
 
-  runningTime: String;
+  runningTime: string;
 
-  genre: String
+  genre: string
 
-  description: String;
+  description: string;
 
   image: string;
 

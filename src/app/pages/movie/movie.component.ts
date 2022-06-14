@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import 'devextreme/data/odata/store';
-import notify from "devextreme/ui/notify";
+import parse from 'parse-duration'
 import {Movie, MovieService} from "./services/movie.service";
 import {Router} from "@angular/router";
 
@@ -21,15 +21,23 @@ export class MovieComponent implements OnInit {
 
   popupVisible = false;
 
+  durationStr: string;
+
   constructor(private movieService: MovieService,
               private router: Router) {
   }
 
   ngOnInit(): void {
+
+
     this.movieService.list().subscribe(result => {
+      for (let movie of result) {
+        let str = movie.runningTime.toLowerCase().substring(2, movie.runningTime.length);
+        movie.runningTime = parse(str, 'm');
+      }
       this.movies = result;
+      this.currentMovie = this.movies[0];
     });
-    this.currentMovie = this.movies[0];
   }
 
   showMovie(movie: Movie) {
