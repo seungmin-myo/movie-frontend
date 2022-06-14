@@ -5,6 +5,7 @@ import {Movie, MovieService} from "../movie/services/movie.service";
 import {Screening, ScreeningService} from "./services/screening.service";
 import {Reservation, ReservationService} from "./services/reservation.service";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import parse from "parse-duration";
 
 @Component({
   selector: 'sample-reservation',
@@ -21,11 +22,11 @@ export class ReservationComponent implements OnInit {
 
   popupVisible = false;
 
-  movieColumns = ['rated', 'title'];
+  focusedMovie = 1;
+  focusedScreening = 1;
 
-  screeningColumns = ['sequence', 'whenScreened']
-
-  focusedRowKey = 1;
+  selectedMovie: Movie;
+  selectedScreening: Screening;
 
   autoNavigateToFocusedRow = true;
 
@@ -49,40 +50,39 @@ export class ReservationComponent implements OnInit {
     })
 
     this.screeningService.list().subscribe(result => {
+
+      for (let screening of result) {
+        let runningTimeStr = parse(screening.movie.runningTime.toLowerCase().substring(2, screening.movie.runningTime.length), 'm') + '분';
+        let runningTime = parse(screening.movie.runningTime.toLowerCase().substring(2, screening.movie.runningTime.length), 'ms');
+        let startTime = new Date(Date.parse(screening.whenScreened));
+        let endTime = new Date(Date.parse(screening.whenScreened) + runningTime);
+
+        screening.runningTimeStr = runningTimeStr;
+        screening.runningTime = runningTime;
+        screening.startTime = this.transDate(startTime);
+        screening.endTime = this.transDate(endTime);
+      }
+
       this.screenings = result;
-    },
-      (error) => {
-        console.log(error);
-      })
+    })
   }
 
   onFocusedRowChanging(e) {
-    const rowsCount = e.component.getVisibleRows().length;
-    const pageCount = e.component.pageCount();
-    const pageIndex = e.component.pageIndex();
-    const key = e.event && e.event.key;
-
-    if (key && e.prevRowIndex === e.newRowIndex) {
-      if (e.newRowIndex === rowsCount - 1 && pageIndex < pageCount - 1) {
-        e.component.pageIndex(pageIndex + 1).done(() => {
-          e.component.option('focusedRowIndex', 0);
-        });
-      } else if (e.newRowIndex === 0 && pageIndex > 0) {
-        e.component.pageIndex(pageIndex - 1).done(() => {
-          e.component.option('focusedRowIndex', rowsCount - 1);
-        });
-      }
-    }
   }
 
   onFocusedRowChanged(e) {
-    const rowData = e.row && e.row.data;
-
-    if (rowData) {
-      this.taskSubject = rowData.Task_Subject;
-      this.taskDetailsHtml = this.sanitizer.bypassSecurityTrustHtml(rowData.Task_Description);
-      this.taskStatus = rowData.Task_Status;
-      this.taskProgress = rowData.Task_Completion ? `${rowData.Task_Completion}` + '%' : '';
+    if (e.element.id == 'movieGrid') {
+      this.selectedMovie = e.row.data;
+    } else if (e.element.id == 'screeningGrid') {
+      this.selectedScreening = e.row.data;
     }
+  }
+
+  transDate(date: Date): string {
+    const formatDate = (date) => {
+      let dateStr = date.getHours() + ":" + date.getMinutes();
+      return dateStr;
+    }
+    return formatDate(date);
   }
 }

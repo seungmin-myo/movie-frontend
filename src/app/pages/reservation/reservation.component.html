@@ -6,7 +6,7 @@
     [dataSource]="movies"
     [showBorders]="true"
     [focusedRowEnabled]="true"
-    [(focusedRowKey)]="focusedRowKey"
+    [(focusedRowKey)]="focusedMovie"
     [(autoNavigateToFocusedRow)]="autoNavigateToFocusedRow"
     (onFocusedRowChanging)="onFocusedRowChanging($event)"
     (onFocusedRowChanged)="onFocusedRowChanged($event)"
@@ -14,18 +14,26 @@
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-sorting mode="none"></dxo-sorting>
-    <dxi-column dataField="rated" caption="연령" [width]="80" ></dxi-column>
+    <dxi-column
+      dataField="rated"
+      caption="연령"
+      [width]="46"
+      cellTemplate="cellTemplate"
+    ></dxi-column>
     <dxi-column dataField="title" caption="제목" [width]="100"></dxi-column>
+
+    <div *dxTemplate="let data of 'cellTemplate'">
+      <img [width]="30" src="/assets/movie/rated/{{ data.value }}.svg" />
+    </div>
   </dx-data-grid>
 
   <dx-data-grid class="selected-data form" fxFlex="60" style="background-color: #fff; border: 1px solid #ddd"
                 id="screeningGrid"
                 keyExpr="id"
                 [dataSource]="screenings"
-                [columns]="screeningColumns"
                 [showBorders]="true"
                 [focusedRowEnabled]="true"
-                [(focusedRowKey)]="focusedRowKey"
+                [(focusedRowKey)]="focusedScreening"
                 [(autoNavigateToFocusedRow)]="autoNavigateToFocusedRow"
                 (onFocusedRowChanging)="onFocusedRowChanging($event)"
                 (onFocusedRowChanged)="onFocusedRowChanged($event)"
@@ -33,6 +41,20 @@
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-sorting mode="none"></dxo-sorting>
+    <dxi-column
+      dataField="sequence"
+      caption="회차"
+      [width]="60"
+      cellTemplate="cellTemplate"
+    ></dxi-column>
+    <dxi-column dataField="startTime" caption="시작시간" [width]="100"></dxi-column>
+    <dxi-column dataField="endTime" caption="종료시간" [width]="100"></dxi-column>
+    <dxi-column dataField="runningTimeStr" caption="상영시간" [width]="100"></dxi-column>
+    <dxi-column dataField="movie.title" caption="제목"></dxi-column>
+
+    <div *dxTemplate="let data of 'cellTemplate'">
+      <div>{{data.value}}회차</div>
+    </div>
   </dx-data-grid>
 </div>
 
