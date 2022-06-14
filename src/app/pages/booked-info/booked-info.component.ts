@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: 'profile.component.html',
-  styleUrls: [ './profile.component.scss' ]
+  templateUrl: 'booked-info.component.html',
+  styleUrls: [ './booked-info.component.scss' ]
 })
 
-export class ProfileComponent {
+export class BookedInfoComponent {
   employee: any;
   colCountByScreen: object;
 

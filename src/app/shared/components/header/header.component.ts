@@ -23,13 +23,13 @@ export class HeaderComponent implements OnInit {
   @Input()
   title!: string;
 
-  user: IUser | null = { email: '' };
+  user: IUser | null = { name: '' };
 
   userMenuItems = [{
-    text: 'Profile',
-    icon: 'user',
+    text: '예매정보',
+    icon: 'bookmark',
     onClick: () => {
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/bookedInfo']);
     }
   },
   {

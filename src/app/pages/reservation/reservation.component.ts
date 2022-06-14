@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import 'devextreme/data/odata/store';
 import notify from "devextreme/ui/notify";
-import {Movie, MovieService} from "./services/movie.service";
+import {Movie, ReservationService} from "./services/reservation.service";
 import {Router} from "@angular/router";
 
 @Component({
   selector: 'sample-employee',
-  providers: [MovieService],
-  templateUrl: 'movie.component.html',
-  styleUrls: ['./movie.component.scss'],
+  providers: [ReservationService],
+  templateUrl: 'reservation.component.html',
+  styleUrls: ['./reservation.component.scss'],
 })
 
-export class MovieComponent implements OnInit {
+export class ReservationComponent implements OnInit {
 
   filter = '';
 
@@ -21,15 +21,13 @@ export class MovieComponent implements OnInit {
 
   popupVisible = false;
 
-  constructor(private movieService: MovieService,
+  constructor(private movieService: ReservationService,
               private router: Router) {
+    this.movies = movieService.getMovies();
+    this.currentMovie = this.movies[0];
   }
 
   ngOnInit(): void {
-    this.movieService.list().subscribe(result => {
-      this.movies = result;
-    });
-    this.currentMovie = this.movies[0];
   }
 
   showMovie(movie: Movie) {

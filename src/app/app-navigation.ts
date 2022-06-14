@@ -23,6 +23,10 @@ export const navigation = [
       {
         text: '상영 영화',
         path: '/movie'
+      },
+      {
+        text: '영화예매',
+        path: '/reservation'
       }
     ]
   }

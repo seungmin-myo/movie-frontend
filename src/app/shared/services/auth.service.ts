@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
 
 export interface IUser {
-  email: string;
+  name: string;
   avatarUrl?: string
 }
 
 const defaultPath = '/';
 const defaultUser = {
-  email: 'sandra@example.com',
+  name: '방승민',
   avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png'
 };
 
@@ -26,12 +26,12 @@ export class AuthService {
 
   constructor(private router: Router) { }
 
-  async logIn(email: string, password: string) {
+  async logIn(name: string, password: string) {
 
     try {
       // Send request
-      console.log(email, password);
-      this._user = { ...defaultUser, email };
+      console.log(name, password);
+      this._user = { ...defaultUser, name };
       this.router.navigate([this._lastAuthenticatedPath]);
 
       return {
@@ -64,10 +64,10 @@ export class AuthService {
     }
   }
 
-  async createAccount(email: string, password: string) {
+  async createAccount(name: string, password: string) {
     try {
       // Send request
-      console.log(email, password);
+      console.log(name, password);
 
       this.router.navigate(['/create-account']);
       return {
@@ -82,10 +82,10 @@ export class AuthService {
     }
   }
 
-  async changePassword(email: string, recoveryCode: string) {
+  async changePassword(name: string, recoveryCode: string) {
     try {
       // Send request
-      console.log(email, recoveryCode);
+      console.log(name, recoveryCode);
 
       return {
         isOk: true
@@ -99,10 +99,10 @@ export class AuthService {
     };
   }
 
-  async resetPassword(email: string) {
+  async resetPassword(name: string) {
     try {
       // Send request
-      console.log(email);
+      console.log(name);
 
       return {
         isOk: true

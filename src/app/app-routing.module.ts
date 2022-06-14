@@ -8,7 +8,7 @@ import {
 } from './shared/components';
 import {AuthGuardService} from './shared/services';
 import {HomeComponent} from './pages/home/home.component';
-import {ProfileComponent} from './pages/profile/profile.component';
+import {BookedInfoComponent} from './pages/booked-info/booked-info.component';
 import {TasksComponent} from './pages/tasks/tasks.component';
 import {DevExtremeModule} from 'devextreme-angular';
 import {EmployeeComponent} from "./pages/employee/employee.component";
@@ -33,8 +33,8 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
-    path: 'profile',
-    component: ProfileComponent,
+    path: 'bookedInfo',
+    component: BookedInfoComponent,
     canActivate: [ AuthGuardService ]
   },
   {
@@ -74,7 +74,7 @@ const routes: Routes = [
   exports: [RouterModule],
   declarations: [
     HomeComponent,
-    ProfileComponent,
+    BookedInfoComponent,
     TasksComponent,
     EmployeeComponent,
     EmployeeEditComponent,
