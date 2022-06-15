@@ -16,3 +16,33 @@
     margin: 0 auto;
   }
 }
+
+.content-block {
+  font-weight: bold;
+}
+
+.dx-fieldset {
+  width: 70%;
+  margin: 0px;
+
+}
+
+.dx-field {
+  width: 100%;
+  margin-bottom: 5px;
+  min-height: 0px;
+}
+
+.dx-field-value {
+  width: 100%;
+  font-weight: bold;
+
+}
+
+.dx-field-value-static, .dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button) {
+  width: 100%;
+}
+
+.none {
+  width: 100%;
+}

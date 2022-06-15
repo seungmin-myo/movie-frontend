@@ -1,17 +1,78 @@
-<h2 class="content-block">Profile</h2>
-
-<div class="content-block dx-card responsive-paddings">
-  <div class="form-avatar">
-    <img src="https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/{{employee.Picture}}"/>
+<h2 class="content-block">예매정보</h2>
+<ng-container *ngIf="reservations.length == 0">
+  <div class="content-block dx-card responsive-paddings" fxLayout="row" fxLayoutGap="20px">
+    <div class="none" style="font-size: 36px; text-align: center">예매내역이 없습니다.</div>
   </div>
-  <span>{{employee.Notes}}</span>
-</div>
+</ng-container>
+<ng-container *ngFor="let reservation of reservations">
+  <div class="content-block dx-card responsive-paddings" fxLayout="row" fxLayoutGap="20px"
+       fxLayoutAlign="space-around center">
+    <div fxFlex="20">
+      <img src="{{ reservation.screening.movie.image }}" [width]="300">
+    </div>
+    <div fxFlex="60">
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 16px;">
+          {{ reservation.screening.sequence }}회차
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 30px;">
+          <img src="/assets/movie/rated/{{ reservation.screening.movie.rated }}.svg" [width]="30"/>
+          {{ reservation.screening.movie.title }}
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 16px;">
+          {{ reservation.screening.movie.genre }} | {{ reservation.screening.runningTimeStr }}
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 20px;">
+          {{ reservation.screening.startTime }} ~ {{ reservation.screening.endTime }}
+        </div>
+      </div>
+      <hr>
+      <br>
 
-<div class="content-block dx-card responsive-paddings">
-  <dx-form id="form"
-    [formData]="employee"
-    labelLocation="top"
-    [colCountByScreen]="colCountByScreen"
-  >
-  </dx-form>
-</div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 20px;">
+          예매자: {{ reservation.customerName }}
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 20px;">
+          인원수: {{ reservation.audienceCount }}
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="dx-field">
+        <ng-container *ngIf="reservation.screening.movieFee.amount == reservation.discountCost">
+          <div class="dx-field-value" style="font-size: 20px;">
+            금액: {{ reservation.discountCost }}원
+          </div>
+        </ng-container>
+        <ng-container *ngIf="reservation.screening.movieFee.amount != reservation.discountCost">
+          <div class="dx-field-value" style="font-size: 20px;">
+            할인금액: {{ reservation.screening.movieFee.amount }}원 -> {{ reservation.discountCost }}원
+          </div>
+        </ng-container>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 20px;">
+          총 결제금액: {{ reservation.totalCost }}원
+        </div>
+      </div>
+      <br>
+      <dx-button text="예매취소"
+                 type="danger"
+                 style="font-size: 24px; font-weight: bold"
+                 [width]="800"
+                 [height]="60"
+                 (click)="doReservationCancel(reservation.id)">
+      </dx-button>
+    </div>
+  </div>
+</ng-container>
+

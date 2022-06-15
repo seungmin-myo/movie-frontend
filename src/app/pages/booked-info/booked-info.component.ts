@@ -1,33 +1,56 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MovieService} from "../movie/services/movie.service";
+import {Router} from "@angular/router";
+import {Reservation, ReservationService} from "../reservation/services/reservation.service";
+import parse from "parse-duration";
 
 @Component({
   templateUrl: 'booked-info.component.html',
-  styleUrls: [ './booked-info.component.scss' ]
+  styleUrls: ['./booked-info.component.scss']
 })
 
-export class BookedInfoComponent {
-  employee: any;
-  colCountByScreen: object;
+export class BookedInfoComponent implements OnInit {
 
-  constructor() {
-    this.employee = {
-      ID: 7,
-      FirstName: 'Sandra',
-      LastName: 'Johnson',
-      Prefix: 'Mrs.',
-      Position: 'Controller',
-      Picture: 'images/employees/06.png',
-      BirthDate: new Date('1974/11/5'),
-      HireDate: new Date('2005/05/11'),
-      /* tslint:disable-next-line:max-line-length */
-      Notes: 'Sandra is a CPA and has been our controller since 2008. She loves to interact with staff so if you`ve not met her, be certain to say hi.\r\n\r\nSandra has 2 daughters both of whom are accomplished gymnasts.',
-      Address: '4600 N Virginia Rd.'
-    };
-    this.colCountByScreen = {
-      xs: 1,
-      sm: 2,
-      md: 3,
-      lg: 4
-    };
+  reservations: Reservation[];
+
+
+  constructor(private reservationService: ReservationService,
+              private router: Router) {
+  }
+
+  ngOnInit(): void {
+    this.reservationService.list().subscribe(result => {
+      console.log(result);
+      for (let reservation of result) {
+        let runningTimeStr = parse(reservation.screening.movie.runningTime.toLowerCase().substring(2, reservation.screening.movie.runningTime.length), 'm') + '분';
+        let runningTime = parse(reservation.screening.movie.runningTime.toLowerCase().substring(2, reservation.screening.movie.runningTime.length), 'ms');
+        let startTime = new Date(Date.parse(reservation.screening.whenScreened));
+        let endTime = new Date(Date.parse(reservation.screening.whenScreened) + runningTime);
+
+        reservation.screening.runningTimeStr = runningTimeStr;
+        reservation.screening.runningTime = runningTime;
+        reservation.screening.startTime = this.transDate(startTime);
+        reservation.screening.endTime = this.transDate(endTime);
+        reservation.totalCost = reservation.discountCost * reservation.audienceCount;
+      }
+
+      this.reservations = result;
+      console.log(this.reservations.length == 0);
+    })
+  }
+
+  transDate(date: Date): string {
+    const formatDate = (date) => {
+      let dateStr = date.getHours() + ":" + date.getMinutes();
+      return dateStr;
+    }
+    return formatDate(date);
+  }
+
+  doReservationCancel(id: number): void {
+    this.reservationService.delete(id).subscribe(result => {
+      this.ngOnInit();
+      // this.router.navigate(['/bookedInfo']);
+    })
   }
 }
