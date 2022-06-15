@@ -1,15 +1,15 @@
 <h2 class="content-block">영화예매</h2>
-<div  class="content-block" fxLayout="row" style="margin: 20px; height: 600px;">
+<div class="content-block" fxLayout="row" style="margin: 20px; height: 600px;">
   <dx-data-grid fxFlex="40"
-    id="movieGrid"
-    keyExpr="id"
-    [dataSource]="movies"
-    [showBorders]="true"
-    [focusedRowEnabled]="true"
-    [(focusedRowKey)]="focusedMovie"
-    [(autoNavigateToFocusedRow)]="autoNavigateToFocusedRow"
-    (onFocusedRowChanging)="onFocusedRowChanging($event)"
-    (onFocusedRowChanged)="onFocusedRowChanged($event)"
+                id="movieGrid"
+                keyExpr="id"
+                [dataSource]="movies"
+                [showBorders]="true"
+                [focusedRowEnabled]="true"
+                [hoverStateEnabled]="true"
+                [(focusedRowKey)]="focusedMovie"
+                [(autoNavigateToFocusedRow)]="autoNavigateToFocusedRow"
+                (onFocusedRowChanged)="onFocusedRowChanged($event)"
   >
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
@@ -23,7 +23,7 @@
     <dxi-column dataField="title" caption="제목" [width]="100"></dxi-column>
 
     <div *dxTemplate="let data of 'cellTemplate'">
-      <img [width]="30" src="/assets/movie/rated/{{ data.value }}.svg" />
+      <img [width]="30" src="/assets/movie/rated/{{ data.value }}.svg"/>
     </div>
   </dx-data-grid>
 
@@ -32,11 +32,8 @@
                 keyExpr="id"
                 [dataSource]="screenings"
                 [showBorders]="true"
-                [focusedRowEnabled]="true"
-                [(focusedRowKey)]="focusedScreening"
-                [(autoNavigateToFocusedRow)]="autoNavigateToFocusedRow"
-                (onFocusedRowChanging)="onFocusedRowChanging($event)"
-                (onFocusedRowChanged)="onFocusedRowChanged($event)"
+                [hoverStateEnabled]="true"
+                (onRowClick)="onScreeningClick($event)"
   >
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
@@ -51,6 +48,7 @@
     <dxi-column dataField="endTime" caption="종료시간" [width]="100"></dxi-column>
     <dxi-column dataField="runningTimeStr" caption="상영시간" [width]="100"></dxi-column>
     <dxi-column dataField="movie.title" caption="제목"></dxi-column>
+    <dxo-selection mode="single"></dxo-selection>
 
     <div *dxTemplate="let data of 'cellTemplate'">
       <div>{{data.value}}회차</div>
@@ -66,23 +64,78 @@
   [title]="'영화예매'"
   [dragEnabled]="false"
   [closeOnOutsideClick]="true"
-  [visible]="popupVisible"
+  [(visible)]="popupVisible"
 >
-  <div>
-    <div class="popup-property-details">
-      <div class="large-text">영화예약</div>
+  <div class="content-block" *ngIf="reservation" fxLayout="row" fxLayoutGap="30px" fxLayoutAlign="space-around center" style="margin: 20px;">
+    <div>
+      <img src="{{ reservation.screening.movie.image }}" [width]="270"/>
     </div>
-  </div>
-  <div class="buttons">
-    <dx-button text="예매"
-               type="default"
-               [width]="120"
-               (click)="doReservation()">
-    </dx-button>
-    <dx-button text="취소"
-               type="danger"
-               [width]="120"
-               (click)="popupVisible = false">
-    </dx-button>
+    <div class="dx-fieldset" fxFlex="60">
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 16px;">
+          {{ reservation.screening.sequence }}회차
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 30px;">
+          <img src="/assets/movie/rated/{{ reservation.screening.movie.rated }}.svg" [width]="30"/>
+          {{ reservation.screening.movie.title }}
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 16px;">
+          {{ reservation.screening.movie.genre }} | {{ reservation.screening.runningTimeStr }}
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 20px;">
+          {{ reservation.screening.startTime }} ~ {{ reservation.screening.endTime }}
+        </div>
+      </div>
+      <hr>
+      <br>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 20px;">
+          예매자: {{ reservation.customerName }}
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value">
+          <dx-number-box
+            [(value)]="reservation.audienceCount"
+            [showSpinButtons]="true"
+            [max]="10"
+            [min]="1"
+            format="#0명"
+            (valueChange)="changeTotalCost()"
+          ></dx-number-box>
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 20px;">
+          할인금액: {{ reservation.screening.movieFee.amount }} -> {{ reservation.discountCost }}
+        </div>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-value" style="font-size: 20px;">
+          총 결제금액: {{ reservation.totalCost }}
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="buttons">
+        <dx-button text="예매"
+                   type="default"
+                   [width]="270"
+                   (click)="doReservation()">
+        </dx-button>
+        <dx-button text="취소"
+                   type="danger"
+                   style="margin-left: 20px;"
+                   [width]="120"
+                   (click)="popupVisible = false">
+        </dx-button>
+      </div>
+    </div>
   </div>
 </dx-popup>

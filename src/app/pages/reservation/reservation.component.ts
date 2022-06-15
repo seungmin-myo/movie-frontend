@@ -6,6 +6,7 @@ import {Screening, ScreeningService} from "./services/screening.service";
 import {Reservation, ReservationService} from "./services/reservation.service";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import parse from "parse-duration";
+import {$e} from "@angular/compiler/src/chars";
 
 @Component({
   selector: 'sample-reservation',
@@ -53,21 +54,30 @@ export class ReservationComponent implements OnInit {
     })
   }
 
-  onFocusedRowChanging(e) {
-  }
-
   onFocusedRowChanged(e) {
     if (e.element.id == 'movieGrid') {
       this.selectedMovie = e.row.data;
       this.getScreeningByMovie(this.selectedMovie.id);
       this.focusedScreening = null;
-    } else if (e.element.id == 'screeningGrid') {
-      if (e.row != null) {
-        this.selectedScreening = e.row.data;
-        this.popupVisible = true;
-        console.log(this.popupVisible);
-      }
     }
+  }
+
+  onScreeningClick(e): void {
+    this.selectedScreening = e.data;
+
+    this.reservation = new Reservation(this.selectedScreening, '방승민');
+
+    this.reservationService.calculateFee(this.reservation).subscribe(result => {
+      this.reservation.discountCost = result.fee.amount;
+      this.reservation.fee = result.fee;
+      this.reservation.totalCost = this.reservation.discountCost * this.reservation.audienceCount;
+    })
+
+    this.popupVisible = true;
+  }
+
+  changeTotalCost(): void {
+    this.reservation.totalCost = this.reservation.discountCost * this.reservation.audienceCount;
   }
 
   getScreeningByMovie(movieId: number): void {
@@ -97,7 +107,13 @@ export class ReservationComponent implements OnInit {
   }
 
   doReservation(): void {
-    this.popupVisible = false;
-    this.router.navigate(['/bookedInfo']);
+    this.reservationService.create(this.reservation).subscribe(result => {
+      this.popupVisible = false;
+      this.router.navigate(['/bookedInfo']);
+    })
+  }
+
+  log($event: any): void {
+    console.log($event);
   }
 }

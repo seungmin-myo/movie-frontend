@@ -12,7 +12,17 @@ export class Reservation {
 
   discountCost: number;
 
+  totalCost: number;
+
+  fee: any;
+
   audienceCount: number;
+
+  constructor(screening: Screening, customerName: string) {
+    this.screening = screening;
+    this.customerName = customerName;
+    this.audienceCount = 1;
+  }
 }
 
 const URL = '/dna/practice/reservations';
@@ -43,5 +53,9 @@ export class ReservationService {
 
   delete(id: number): Observable<Reservation> {
     return this.http.delete<any>(`${URL}/${id}`);
+  }
+
+  calculateFee(reservation: Reservation): Observable<Reservation> {
+    return this.http.post<any>(`${URL}/calculateFee`, reservation);
   }
 }

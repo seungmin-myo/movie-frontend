@@ -8,10 +8,21 @@ export class Screening {
 
   movie: Movie;
 
-  sequence: string;
+  movieFee: any;
+
+  runningTime: any;
+
+  runningTimeStr: any;
+
+  startTime: any;
+
+  endTime: any;
+
+  sequence: number;
 
   whenScreened: string;
 }
+
 
 const URL = '/dna/practice/screenings';
 
