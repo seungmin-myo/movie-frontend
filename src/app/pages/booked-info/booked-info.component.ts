@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {MovieService} from "../movie/services/movie.service";
 import {Router} from "@angular/router";
 import {Reservation, ReservationService} from "../reservation/services/reservation.service";
 import parse from "parse-duration";
