@@ -5,7 +5,7 @@ export const navigation = [
     icon: 'home'
   },
   {
-    text: 'Examples',
+    text: '영화',
     icon: 'folder',
     items: [
       // {

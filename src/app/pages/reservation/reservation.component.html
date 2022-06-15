@@ -66,11 +66,23 @@
   [title]="'영화예매'"
   [dragEnabled]="false"
   [closeOnOutsideClick]="true"
-  [visible]="false"
+  [visible]="popupVisible"
 >
   <div>
     <div class="popup-property-details">
       <div class="large-text">영화예약</div>
     </div>
+  </div>
+  <div class="buttons">
+    <dx-button text="예매"
+               type="default"
+               [width]="120"
+               (click)="doReservation()">
+    </dx-button>
+    <dx-button text="취소"
+               type="danger"
+               [width]="120"
+               (click)="popupVisible = false">
+    </dx-button>
   </div>
 </dx-popup>

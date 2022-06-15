@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Movie} from "../../movie/services/movie.service";
 
@@ -23,8 +23,10 @@ export class ScreeningService {
   constructor(private http: HttpClient) {
   }
 
-  list(): Observable<any> {
-    return this.http.get<any>(`${URL}`);
+  list(movieId?: any): Observable<any> {
+    const params = new HttpParams()
+      .set('movieId', movieId);
+    return this.http.get<any>(`${URL}`, {params});
   }
 
   find(id: number): Observable<Screening> {
@@ -42,4 +44,5 @@ export class ScreeningService {
   delete(id: number): Observable<Screening> {
     return this.http.delete<any>(`${URL}/${id}`);
   }
+
 }

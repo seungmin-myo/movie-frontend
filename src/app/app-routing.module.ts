@@ -30,6 +30,11 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
+    path: 'reservation/:movieId',
+    component: ReservationComponent,
+    canActivate: [ AuthGuardService ]
+  },
+  {
     path: 'employee',
     component: EmployeeComponent,
     canActivate: [ AuthGuardService ]

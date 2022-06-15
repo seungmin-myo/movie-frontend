@@ -28,9 +28,9 @@
     <div *dxTemplate="let data of 'content'">
       <div class="popup-property-details">
         <div class="large-text">{{ currentMovie.title }}</div>
-        <div class="opacity"
-        >예매율 {{ currentMovie.advanceTicketSale }}% | {{ currentMovie.openingDate }} | {{ currentMovie.genre}} | {{currentMovie.runningTime}}분</div
-        >
+        <div class="opacity">
+          예매율 {{ currentMovie.advanceTicketSale }}% | {{ currentMovie.openingDate }} | {{ currentMovie.genre}} | {{currentMovie.runningTime}}분
+        </div>
         <dx-button
           class="booking"
           [text]="'이 영화 예매하기'"

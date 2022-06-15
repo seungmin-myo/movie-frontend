@@ -21,8 +21,6 @@ export class MovieComponent implements OnInit {
 
   popupVisible = false;
 
-  durationStr: string;
-
   constructor(private movieService: MovieService,
               private router: Router) {
   }
@@ -44,6 +42,6 @@ export class MovieComponent implements OnInit {
   }
 
   moveReservationPage($event: any) {
-    this.router.navigate(['/reservation']);
+    this.router.navigate(['/reservation', this.currentMovie.id]);
   }
 }
